@@ -1,28 +1,24 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { useEffect } from "react";
+import { useState } from "react";
 
 import "./sidebar.css";
 
 export default function Sidebar() {
-  useEffect(() => {
-    const hamBurger = document.querySelector(".toggle-btn");
-
-    const handleToggleClick = () => {
-      document.querySelector("#sidebar").classList.toggle("expand");
-    };
-
-    hamBurger.addEventListener("click", handleToggleClick);
-    return () => {
-      hamBurger.removeEventListener("click", handleToggleClick);
-    };
-  }, []);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const handleToggleClick = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <>
       <div className="wrapper">
-        <aside id="sidebar">
+        <aside id="sidebar" className={isExpanded ? "expand" : ""}>
           <div className="d-flex">
-            <button className="toggle-btn" type="button">
+            <button
+              className="toggle-btn"
+              type="button"
+              onClick={handleToggleClick}
+            >
               <i className="lni lni-grid-alt"></i>
             </button>
             <div className="sidebar-logo">
@@ -138,7 +134,6 @@ export default function Sidebar() {
           </div>
         </aside>
         <div className="main p-3">
-          {/* <div className="text-center"></div> */}
           <Outlet />
         </div>
       </div>
